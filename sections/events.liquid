@@ -1,0 +1,165 @@
+{%- style -%}
+  .events-{{ section.id }} {
+    width: 100%;
+    background: var(--color-background);
+    padding: var(--spacing-xxl) 0;
+  }
+  .events-{{ section.id }}__container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+  }
+  .events-{{ section.id }}__header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+  }
+  .events-{{ section.id }}__title {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    font-weight: 300;
+    margin-bottom: 0.5em;
+    color: var(--color-text);
+  }
+  .events-{{ section.id }}__subtitle {
+    font-family: var(--font-body);
+    font-size: 1.125rem;
+    color: var(--color-text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .events-{{ section.id }}__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--spacing-xl);
+    align-items: stretch;
+  }
+  .events-{{ section.id }}__item {
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md, 0.5em);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 0.2s;
+  }
+  .events-{{ section.id }}__item:hover {
+    box-shadow: 0 6px 24px rgba(0,0,0,0.08);
+  }
+  .events-{{ section.id }}__image {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    display: block;
+    background: var(--color-background-alt, #f6f6f6);
+  }
+  .events-{{ section.id }}__info {
+    padding: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    flex-grow: 1;
+  }
+  .events-{{ section.id }}__title {
+    font-family: var(--font-heading);
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: var(--color-text);
+    margin: 0;
+    line-height: 1.2;
+  }
+  .events-{{ section.id }}__date {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: var(--color-accent);
+    margin: 0;
+  }
+  .events-{{ section.id }}__venue {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+  .events-{{ section.id }}__link {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--color-accent);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+    margin-top: var(--spacing-sm);
+    align-self: flex-start;
+  }
+  .events-{{ section.id }}__link:hover,
+  .events-{{ section.id }}__link:focus {
+    border-bottom: 1px solid var(--color-accent);
+    outline: none;
+  }
+  @media (max-width: 900px) {
+    .events-{{ section.id }}__grid {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-lg);
+    }
+  }
+{%- endstyle -%}
+
+<section class="events-{{ section.id }}">
+  <div class="events-{{ section.id }}__container">
+    {%- if section.settings.heading != blank or section.settings.subtitle != blank -%}
+      <div class="events-{{ section.id }}__header{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="events-{{ section.id }}__title">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subtitle != blank -%}
+          <p class="events-{{ section.id }}__subtitle">{{ section.settings.subtitle }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    <div class="events-{{ section.id }}__grid">
+      {%- for block in section.blocks -%}
+        <div class="events-{{ section.id }}__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"{% if settings.animations_reveal_on_scroll %} data-cascade style="--animation-order: {{ forloop.index }};"{% endif %}>
+          {%- if block.settings.image != blank -%}
+            <img class="events-{{ section.id }}__image" src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.title | escape }}" width="600" height="338">
+          {%- endif -%}
+          <div class="events-{{ section.id }}__info">
+            <h3 class="events-{{ section.id }}__title">{{ block.settings.title }}</h3>
+            <p class="events-{{ section.id }}__date">{{ block.settings.date }}</p>
+            <p class="events-{{ section.id }}__venue">{{ block.settings.venue }}</p>
+            {%- if block.settings.link != blank -%}
+              <a href="{{ block.settings.link }}" class="events-{{ section.id }}__link" target="_blank" rel="noopener">
+                {{ block.settings.link_text | default: 'RSVP' }}
+              </a>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Upcoming Events",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "inline_richtext", "id": "heading", "label": "Section heading", "default": "Exhibitions" },
+    { "type": "textarea", "id": "subtitle", "label": "Subtitle (optional)" }
+  ],
+  "max_blocks": 6,
+  "blocks": [
+    {
+      "type": "event",
+      "name": "Event",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Event title" },
+        { "type": "text", "id": "date", "label": "Date", "info": "e.g. March 15-30, 2024" },
+        { "type": "text", "id": "venue", "label": "Venue" },
+        { "type": "image_picker", "id": "image", "label": "Event image (optional)" },
+        { "type": "url", "id": "link", "label": "Link (optional)", "info": "RSVP or map link" },
+        { "type": "text", "id": "link_text", "label": "Link text", "default": "RSVP" }
+      ]
+    }
+  ],
+  "presets": [ { "name": "Upcoming Events" } ]
+}
+{% endschema %} 

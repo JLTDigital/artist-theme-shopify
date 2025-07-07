@@ -1,0 +1,120 @@
+{%- style -%}
+  .project-gallery-{{ section.id }} {
+    width: 100%;
+    background: var(--color-background);
+    padding: var(--spacing-xxl) 0;
+  }
+  .project-gallery-{{ section.id }}__container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+    padding-top: var(--spacing-md);
+  }
+  .project-gallery-{{ section.id }}__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--spacing-xl);
+    align-items: stretch;
+  }
+  .project-gallery-{{ section.id }}__item {
+    background: var(--color-background);
+    border-radius: var(--radius-md, 0.5em);
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+  .project-gallery-{{ section.id }}__image {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    display: block;
+    background: var(--color-background-alt, #f6f6f6);
+  }
+  .project-gallery-{{ section.id }}__info {
+    padding: var(--spacing-md) var(--spacing-md) var(--spacing-lg) var(--spacing-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+  .project-gallery-{{ section.id }}__title {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: var(--color-text);
+    margin: 0 0 0.2em 0;
+    line-height: 1.2;
+  }
+  .project-gallery-{{ section.id }}__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5em;
+    margin-top: 0.2em;
+  }
+  .project-gallery-{{ section.id }}__tag {
+    font-family: var(--font-body);
+    font-size: 0.95em;
+    color: var(--color-accent);
+    background: var(--color-background);
+    border: 1px solid var(--color-accent);
+    border-radius: 2em;
+    padding: 0.15em 0.9em;
+    line-height: 1.2;
+    display: inline-block;
+    letter-spacing: 0.01em;
+  }
+{%- endstyle -%}
+
+<section class="project-gallery-{{ section.id }}">
+  <div class="project-gallery-{{ section.id }}__container">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="section-title" style="font-family:var(--font-heading); font-size:2rem; margin-bottom:var(--spacing-xl);">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    <div class="project-gallery-{{ section.id }}__grid">
+      {%- for block in section.blocks -%}
+        <div class="project-gallery-{{ section.id }}__item">
+          {%- if block.settings.image != blank -%}
+            <img class="project-gallery-{{ section.id }}__image" src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.title | escape }}" width="600" height="600">
+          {%- endif -%}
+          <div class="project-gallery-{{ section.id }}__info">
+            <div class="project-gallery-{{ section.id }}__title">{{ block.settings.title }}</div>
+            {%- if block.settings.tags != blank -%}
+              <div class="project-gallery-{{ section.id }}__tags">
+                {%- assign tags = block.settings.tags | split: ',' -%}
+                {%- for tag in tags -%}
+                  <span class="project-gallery-{{ section.id }}__tag">{{ tag | strip }}</span>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured Projects",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "inline_richtext", "id": "heading", "label": "Section heading", "default": "Featured Projects" }
+  ],
+  "max_blocks": 6,
+  "blocks": [
+    {
+      "type": "project",
+      "name": "Project",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Artwork image" },
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "text", "id": "tags", "label": "Category tags (comma separated)", "info": "e.g. Sculpture, Ink, Ceramic" }
+      ]
+    }
+  ],
+  "presets": [ { "name": "Featured Projects Grid", "category": "Gallery" } ]
+}
+{% endschema %} 

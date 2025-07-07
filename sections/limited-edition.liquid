@@ -1,0 +1,141 @@
+{%- style -%}
+  .limited-edition-{{ section.id }} {
+    padding: var(--spacing-xl) 0;
+    background: var(--color-background);
+    text-align: center;
+  }
+  .limited-edition-{{ section.id }}__header {
+    margin-bottom: var(--spacing-lg);
+  }
+  .limited-edition-{{ section.id }}__title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 300;
+    margin-bottom: 1rem;
+  }
+  .limited-edition-{{ section.id }}__subtitle {
+    font-size: 1.125rem;
+    color: var(--color-text-light);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .limited-edition-{{ section.id }}__product {
+    display: inline-block;
+    background: var(--color-accent);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    padding: 2rem 2rem 1.5rem 2rem;
+    margin: 0 auto;
+    max-width: 400px;
+    text-align: center;
+  }
+  .limited-edition-{{ section.id }}__image {
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    object-fit: cover;
+  }
+  .limited-edition-{{ section.id }}__product-title {
+    font-family: var(--font-heading-family);
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: var(--color-text);
+  }
+  .limited-edition-{{ section.id }}__price {
+    color: var(--color-text-light);
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+  .limited-edition-{{ section.id }}__urgency {
+    color: #b94a48;
+    background: #fbeee6;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 1rem;
+  }
+  .limited-edition-{{ section.id }}__button {
+    margin-top: 1rem;
+  }
+  @media (max-width: 600px) {
+    .limited-edition-{{ section.id }}__product {
+      padding: 1.5rem 0.5rem 1rem 0.5rem;
+      max-width: 100%;
+    }
+    .limited-edition-{{ section.id }}__image {
+      max-width: 100%;
+    }
+  }
+{%- endstyle -%}
+
+<section class="limited-edition-{{ section.id }}">
+  <div class="container">
+    {%- if section.settings.title != blank or section.settings.subtitle != blank -%}
+      <div class="limited-edition-{{ section.id }}__header">
+        {%- if section.settings.title != blank -%}
+          <h2 class="limited-edition-{{ section.id }}__title">{{ section.settings.title }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subtitle != blank -%}
+          <p class="limited-edition-{{ section.id }}__subtitle">{{ section.settings.subtitle }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    {%- assign product = all_products[section.settings.product] -%}
+    {%- if product -%}
+      <div class="limited-edition-{{ section.id }}__product">
+        {%- if product.featured_image -%}
+          <img src="{{ product.featured_image | image_url: width: 320 }}" alt="{{ product.title | escape }}" class="limited-edition-{{ section.id }}__image" width="320" height="320">
+        {%- endif -%}
+        <div class="limited-edition-{{ section.id }}__product-title">{{ product.title }}</div>
+        <div class="limited-edition-{{ section.id }}__price">{{ product.price | money }}</div>
+        {%- if section.settings.urgency_message != blank -%}
+          <div class="limited-edition-{{ section.id }}__urgency">{{ section.settings.urgency_message }}</div>
+        {%- endif -%}
+        <div class="limited-edition-{{ section.id }}__button">
+          <a href="{{ product.url }}" class="button">View Product</a>
+        </div>
+      </div>
+    {%- else -%}
+      <p style="color:var(--color-text-light);">Select a product to feature here.</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Limited Edition",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    },
+    {
+      "type": "text",
+      "id": "urgency_message",
+      "label": "Urgency message (e.g. 'Only 3 left', 'Limited Edition')"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Limited Edition"
+    }
+  ]
+}
+{% endschema %}

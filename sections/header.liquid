@@ -1,0 +1,182 @@
+{%- style -%}
+  .artist-header-{{ section.id }} {
+    width: 100%;
+    background: var(--color-background);
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    padding: var(--spacing-md) 0;
+    box-shadow: none;
+    border-bottom: 1px solid var(--color-border);
+    transition: background 0.3s;
+  }
+  .artist-header-{{ section.id }}__container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: var(--spacing-md) var(--container-padding) 0 var(--container-padding);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .artist-header-{{ section.id }}__logo {
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    font-weight: 300;
+    letter-spacing: 0.01em;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-sm);
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    line-height: 1.1;
+  }
+  .artist-header-{{ section.id }}__nav {
+    display: flex;
+    gap: var(--spacing-lg);
+    justify-content: center;
+    align-items: center;
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    font-weight: 400;
+    margin-bottom: var(--spacing-sm);
+  }
+  .artist-header-{{ section.id }}__nav-link {
+    color: var(--color-text);
+    text-decoration: none;
+    padding: 0.5rem 0.25rem;
+    transition: color 0.2s;
+    border-bottom: 1.5px solid transparent;
+  }
+  .artist-header-{{ section.id }}__nav-link:hover,
+  .artist-header-{{ section.id }}__nav-link:focus {
+    color: var(--color-accent);
+    border-bottom: 1.5px solid var(--color-accent);
+    outline: none;
+  }
+  .artist-header-{{ section.id }}__icons {
+    display: flex;
+    gap: var(--spacing-md);
+    align-items: center;
+    position: absolute;
+    right: var(--container-padding);
+    top: var(--spacing-md);
+  }
+  .artist-header-{{ section.id }}__icon-link {
+    color: var(--color-text);
+    text-decoration: none;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s;
+  }
+  .artist-header-{{ section.id }}__icon-link:hover,
+  .artist-header-{{ section.id }}__icon-link:focus {
+    color: var(--color-accent);
+    outline: none;
+  }
+  .artist-header-{{ section.id }}__mobile-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: var(--color-text);
+    margin-left: auto;
+    cursor: pointer;
+  }
+  @media (max-width: 900px) {
+    .artist-header-{{ section.id }}__container {
+      padding: var(--spacing-md) var(--spacing-sm) 0 var(--spacing-sm);
+    }
+    .artist-header-{{ section.id }}__nav {
+      display: none;
+    }
+    .artist-header-{{ section.id }}__mobile-toggle {
+      display: block;
+      position: absolute;
+      right: var(--container-padding);
+      top: var(--spacing-md);
+    }
+    .artist-header-{{ section.id }}__mobile-nav {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--spacing-md);
+      background: var(--color-background);
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100vw;
+      padding: var(--spacing-lg) 0;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.04);
+      z-index: 100;
+    }
+    .artist-header-{{ section.id }}__mobile-nav-link {
+      color: var(--color-text);
+      font-size: 1.25rem;
+      text-decoration: none;
+      padding: 0.75rem 0;
+      border-bottom: 1.5px solid transparent;
+      transition: color 0.2s;
+    }
+    .artist-header-{{ section.id }}__mobile-nav-link:hover,
+    .artist-header-{{ section.id }}__mobile-nav-link:focus {
+      color: var(--color-accent);
+      border-bottom: 1.5px solid var(--color-accent);
+      outline: none;
+    }
+  }
+{%- endstyle -%}
+
+<header class="artist-header-{{ section.id }}">
+  <div class="artist-header-{{ section.id }}__container" style="position:relative;">
+    <a href="{{ routes.root_url }}" class="artist-header-{{ section.id }}__logo">
+      {%- if settings.logo != blank -%}
+        <img src="{{ settings.logo | image_url: width: 400 }}" alt="{{ settings.logo.alt | default: shop.name | escape }}" style="max-height: 64px; width:auto; margin:0 auto; display:block;" width="{{ settings.logo.width | default: 400 }}" height="{{ settings.logo.height | default: 64 }}">
+      {%- else -%}
+        {{ shop.name }}
+      {%- endif -%}
+    </a>
+    <nav class="artist-header-{{ section.id }}__nav" aria-label="Main navigation">
+      {%- for link in linklists[section.settings.menu].links -%}
+        <a href="{{ link.url }}" class="artist-header-{{ section.id }}__nav-link">{{ link.title }}</a>
+      {%- endfor -%}
+    </nav>
+    <button class="artist-header-{{ section.id }}__mobile-toggle" aria-label="Open menu" onclick="this.nextElementSibling.classList.toggle('open')">
+      &#9776;
+    </button>
+    <nav class="artist-header-{{ section.id }}__mobile-nav" style="display:none;" aria-label="Mobile navigation">
+      {%- for link in linklists[section.settings.menu].links -%}
+        <a href="{{ link.url }}" class="artist-header-{{ section.id }}__mobile-nav-link">{{ link.title }}</a>
+      {%- endfor -%}
+    </nav>
+    <div class="artist-header-{{ section.id }}__icons">
+      <a href="{{ routes.account_url }}" class="artist-header-{{ section.id }}__icon-link" aria-label="Account">
+        <span class="svg-wrapper">{{ 'icon-account.svg' | inline_asset_content }}</span>
+      </a>
+      <a href="{{ routes.cart_url }}" class="artist-header-{{ section.id }}__icon-link" aria-label="Cart">
+        <span class="svg-wrapper">{{ 'icon-cart.svg' | inline_asset_content }}</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Main menu"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Header"
+    }
+  ]
+}
+{% endschema %}

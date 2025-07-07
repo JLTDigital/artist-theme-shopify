@@ -1,0 +1,117 @@
+{%- style -%}
+  .testimonials-{{ section.id }} {
+    width: 100%;
+    background: var(--color-background);
+    padding: var(--spacing-xxl) 0;
+  }
+  .testimonials-{{ section.id }}__container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+  }
+  .testimonials-{{ section.id }}__header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+  }
+  .testimonials-{{ section.id }}__title {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    font-weight: 300;
+    margin-bottom: 0.5em;
+    color: var(--color-text);
+  }
+  .testimonials-{{ section.id }}__subtitle {
+    font-family: var(--font-body);
+    font-size: 1.125rem;
+    color: var(--color-text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .testimonials-{{ section.id }}__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-xl);
+    align-items: start;
+  }
+  .testimonials-{{ section.id }}__item {
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md, 0.5em);
+    padding: var(--spacing-lg);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+  .testimonials-{{ section.id }}__quote {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--color-text);
+    line-height: 1.4;
+    margin: 0;
+    flex-grow: 1;
+  }
+  .testimonials-{{ section.id }}__author {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+  @media (max-width: 900px) {
+    .testimonials-{{ section.id }}__grid {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-lg);
+    }
+  }
+{%- endstyle -%}
+
+<section class="testimonials-{{ section.id }}">
+  <div class="testimonials-{{ section.id }}__container">
+    {%- if section.settings.heading != blank or section.settings.subtitle != blank -%}
+      <div class="testimonials-{{ section.id }}__header{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="testimonials-{{ section.id }}__title">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subtitle != blank -%}
+          <p class="testimonials-{{ section.id }}__subtitle">{{ section.settings.subtitle }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    <div class="testimonials-{{ section.id }}__grid">
+      {%- for block in section.blocks -%}
+        <div class="testimonials-{{ section.id }}__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"{% if settings.animations_reveal_on_scroll %} data-cascade style="--animation-order: {{ forloop.index }};"{% endif %}>
+          <blockquote class="testimonials-{{ section.id }}__quote">{{ block.settings.quote }}</blockquote>
+          {%- if block.settings.author != blank -%}
+            <cite class="testimonials-{{ section.id }}__author">{{ block.settings.author }}</cite>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "inline_richtext", "id": "heading", "label": "Section heading", "default": "Collector Quotes" },
+    { "type": "textarea", "id": "subtitle", "label": "Subtitle (optional)" }
+  ],
+  "max_blocks": 6,
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        { "type": "textarea", "id": "quote", "label": "Quote", "default": "A beautiful piece that captures the essence perfectly." },
+        { "type": "text", "id": "author", "label": "Author/Publication (optional)" }
+      ]
+    }
+  ],
+  "presets": [ { "name": "Testimonials" } ]
+}
+{% endschema %} 

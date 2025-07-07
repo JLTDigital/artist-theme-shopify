@@ -1,0 +1,97 @@
+{%- style -%}
+  .video-process-{{ section.id }} {
+    width: 100%;
+    background: var(--color-background);
+    padding: var(--spacing-xxl) 0;
+  }
+  .video-process-{{ section.id }}__container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+    padding-top: var(--spacing-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .video-process-{{ section.id }}__media {
+    width: 100%;
+    max-width: 900px;
+    aspect-ratio: 16/9;
+    background: var(--color-background-alt, #f6f6f6);
+    border-radius: var(--radius-md, 0.5em);
+    overflow: hidden;
+    margin-bottom: var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .video-process-{{ section.id }}__poster {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1;
+    border-radius: var(--radius-md, 0.5em);
+  }
+  .video-process-{{ section.id }}__iframe,
+  .video-process-{{ section.id }}__video {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+    z-index: 2;
+    background: transparent;
+    border-radius: var(--radius-md, 0.5em);
+  }
+  .video-process-{{ section.id }}__caption {
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    color: var(--color-text-muted);
+    margin-top: var(--spacing-md);
+    text-align: center;
+    max-width: 700px;
+    line-height: 1.5;
+  }
+{%- endstyle -%}
+
+<section class="video-process-{{ section.id }}">
+  <div class="video-process-{{ section.id }}__container">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="section-title" style="font-family:var(--font-heading); font-size:2rem; margin-bottom:var(--spacing-xl);">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    <div class="video-process-{{ section.id }}__media">
+      {%- if section.settings.video_url contains 'youtube.com' or section.settings.video_url contains 'vimeo.com' -%}
+        <iframe class="video-process-{{ section.id }}__iframe" src="{{ section.settings.video_url | replace: 'watch?v=', 'embed/' }}{% if section.settings.autoplay %}?autoplay=1&mute=1&controls=1{% endif %}" allow="autoplay; encrypted-media" allowfullscreen title="{{ section.settings.heading | escape }}"></iframe>
+      {%- elsif section.settings.video_url != blank -%}
+        <video class="video-process-{{ section.id }}__video" {% if section.settings.autoplay %}autoplay muted loop playsinline{% endif %} controls poster="{{ section.settings.poster | image_url: width: 1200 }}">
+          <source src="{{ section.settings.video_url }}" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      {%- elsif section.settings.poster != blank -%}
+        <img class="video-process-{{ section.id }}__poster" src="{{ section.settings.poster | image_url: width: 1200 }}" alt="{{ section.settings.heading | escape }}" width="1200" height="675">
+      {%- endif -%}
+    </div>
+    {%- if section.settings.caption != blank -%}
+      <div class="video-process-{{ section.id }}__caption">{{ section.settings.caption }}</div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Video / Process",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "inline_richtext", "id": "heading", "label": "Section heading", "default": "Process Video" },
+    { "type": "url", "id": "video_url", "label": "Video URL (YouTube, Vimeo, or MP4)", "info": "Paste a YouTube, Vimeo, or direct MP4 link." },
+    { "type": "image_picker", "id": "poster", "label": "Poster image (optional)" },
+    { "type": "checkbox", "id": "autoplay", "label": "Autoplay (muted)", "default": false },
+    { "type": "textarea", "id": "caption", "label": "Caption or quote (optional)" }
+  ],
+  "presets": [ { "name": "Video / Process" } ]
+}
+{% endschema %} 

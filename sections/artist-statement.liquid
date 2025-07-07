@@ -1,0 +1,182 @@
+{%- style -%}
+  .artist-statement-{{ section.id }} {
+    padding: var(--spacing-xl) 0;
+    background-color: var(--color-accent);
+  }
+
+  .artist-statement-{{ section.id }}__container {
+    display: grid;
+    gap: var(--spacing-lg);
+    align-items: center;
+  }
+
+  {%- if section.settings.layout == 'image-left' -%}
+    .artist-statement-{{ section.id }}__container {
+      grid-template-columns: 1fr 1fr;
+    }
+  {%- elsif section.settings.layout == 'image-right' -%}
+    .artist-statement-{{ section.id }}__container {
+      grid-template-columns: 1fr 1fr;
+    }
+  {%- else -%}
+    .artist-statement-{{ section.id }}__container {
+      grid-template-columns: 1fr;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+  {%- endif -%}
+
+  .artist-statement-{{ section.id }}__content {
+    {%- if section.settings.layout == 'image-right' -%}
+      order: 1;
+    {%- endif -%}
+  }
+
+  .artist-statement-{{ section.id }}__title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 300;
+    margin-bottom: var(--spacing-md);
+    line-height: 1.2;
+  }
+
+  .artist-statement-{{ section.id }}__text {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: var(--color-text-light);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .artist-statement-{{ section.id }}__text p {
+    margin-bottom: 1.5rem;
+  }
+
+  .artist-statement-{{ section.id }}__text p:last-child {
+    margin-bottom: 0;
+  }
+
+  .artist-statement-{{ section.id }}__image-wrapper {
+    {%- if section.settings.layout == 'image-right' -%}
+      order: 2;
+    {%- endif -%}
+  }
+
+  .artist-statement-{{ section.id }}__image {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+  }
+
+  .artist-statement-{{ section.id }}__signature {
+    font-family: var(--font-heading-family);
+    font-style: italic;
+    font-size: 1.25rem;
+    margin-top: var(--spacing-md);
+    color: var(--color-text);
+  }
+
+  @media (max-width: 768px) {
+    .artist-statement-{{ section.id }}__container {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-md);
+    }
+    
+    .artist-statement-{{ section.id }}__content,
+    .artist-statement-{{ section.id }}__image-wrapper {
+      order: unset;
+    }
+  }
+{%- endstyle -%}
+
+<section class="artist-statement-{{ section.id }} artist-statement">
+  <div class="container">
+    <div class="artist-statement-{{ section.id }}__container">
+      <div class="artist-statement-{{ section.id }}__content">
+        {%- if section.settings.title != blank -%}
+          <h2 class="artist-statement-{{ section.id }}__title">{{ section.settings.title }}</h2>
+        {%- endif -%}
+
+        {%- if section.settings.text != blank -%}
+          <div class="artist-statement-{{ section.id }}__text">
+            {{ section.settings.text }}
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.signature != blank -%}
+          <div class="artist-statement-{{ section.id }}__signature">
+            — {{ section.settings.signature }}
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.image -%}
+        <div class="artist-statement-{{ section.id }}__image-wrapper">
+          <img 
+            src="{{ section.settings.image | image_url: width: 600 }}"
+            alt="{{ section.settings.image.alt | escape }}"
+            class="artist-statement-{{ section.id }}__image"
+            loading="lazy"
+            width="600"
+            height="800"
+          >
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Artist Statement",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Artist Statement"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Statement text",
+      "default": "<p>Share your artistic philosophy, inspiration, and creative journey here. This is where you can connect with your audience on a deeper level and explain what drives your work.</p>"
+    },
+    {
+      "type": "text",
+      "id": "signature",
+      "label": "Signature"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Portrait image"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "text-only",
+          "label": "Text only"
+        },
+        {
+          "value": "image-left",
+          "label": "Image left"
+        },
+        {
+          "value": "image-right",
+          "label": "Image right"
+        }
+      ],
+      "default": "text-only"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Artist Statement"
+    }
+  ]
+}
+{% endschema %} 

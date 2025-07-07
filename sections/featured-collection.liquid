@@ -1,0 +1,227 @@
+{%- style -%}
+  .featured-collection-{{ section.id }} {
+    width: 100%;
+    background: var(--color-background);
+    padding: var(--spacing-xxl) 0;
+  }
+  .featured-collection-{{ section.id }}__container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+  }
+  .featured-collection-{{ section.id }}__header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+  }
+  .featured-collection-{{ section.id }}__title {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    font-weight: 300;
+    margin-bottom: 0.5em;
+    color: var(--color-text);
+  }
+  .featured-collection-{{ section.id }}__subtitle {
+    font-family: var(--font-body);
+    font-size: 1.125rem;
+    color: var(--color-text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .featured-collection-{{ section.id }}__slider {
+    display: flex;
+    gap: var(--spacing-xl);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: var(--spacing-lg);
+    -webkit-overflow-scrolling: touch;
+  }
+  .featured-collection-{{ section.id }}__item {
+    min-width: 260px;
+    max-width: 340px;
+    background: var(--color-background);
+    border-radius: var(--radius-md, 0.5em);
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    overflow: hidden;
+    scroll-snap-align: start;
+    transition: box-shadow 0.2s;
+    border: 1px solid var(--color-border);
+  }
+  .featured-collection-{{ section.id }}__item:hover {
+    box-shadow: 0 6px 24px rgba(0,0,0,0.08);
+  }
+  .featured-collection-{{ section.id }}__image-wrapper {
+    aspect-ratio: 1/1;
+    background: var(--color-background-alt, #f6f6f6);
+    overflow: hidden;
+    display: block;
+  }
+  .featured-collection-{{ section.id }}__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.2s;
+  }
+  .featured-collection-{{ section.id }}__item:hover .featured-collection-{{ section.id }}__image {
+    transform: scale(1.04);
+  }
+  .featured-collection-{{ section.id }}__info {
+    padding: var(--spacing-md) var(--spacing-md) var(--spacing-lg) var(--spacing-md);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+  .featured-collection-{{ section.id }}__product-title {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    font-weight: 400;
+    margin-bottom: 0.2em;
+    color: var(--color-text);
+    line-height: 1.2;
+  }
+  .featured-collection-{{ section.id }}__price {
+    color: var(--color-text);
+    font-size: 1rem;
+    margin-bottom: 0.2em;
+  }
+  .featured-collection-{{ section.id }}__tag {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-size: 0.95em;
+    color: var(--color-accent);
+    background: var(--color-background);
+    border: 1px solid var(--color-accent);
+    border-radius: 2em;
+    padding: 0.15em 0.9em;
+    margin-bottom: 0.3em;
+    margin-top: 0.1em;
+    letter-spacing: 0.01em;
+  }
+  .featured-collection-{{ section.id }}__cta {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--spacing-xl);
+  }
+  .featured-collection-{{ section.id }}__cta-btn {
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    background: var(--color-accent);
+    color: var(--color-background);
+    border: none;
+    border-radius: 2em;
+    padding: 0.7em 2.2em;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+    display: inline-block;
+  }
+  .featured-collection-{{ section.id }}__cta-btn:hover,
+  .featured-collection-{{ section.id }}__cta-btn:focus {
+    background: var(--color-text);
+    color: var(--color-background);
+    outline: none;
+  }
+  @media (max-width: 900px) {
+    .featured-collection-{{ section.id }}__slider {
+      gap: var(--spacing-lg);
+    }
+    .featured-collection-{{ section.id }}__item {
+      min-width: 70vw;
+      max-width: 90vw;
+    }
+  }
+{%- endstyle -%}
+
+<section class="featured-collection-{{ section.id }}">
+  <div class="featured-collection-{{ section.id }}__container">
+    {%- if section.settings.title != blank or section.settings.subtitle != blank -%}
+      <div class="featured-collection-{{ section.id }}__header">
+        {%- if section.settings.title != blank -%}
+          <h2 class="featured-collection-{{ section.id }}__title">{{ section.settings.title }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subtitle != blank -%}
+          <p class="featured-collection-{{ section.id }}__subtitle">{{ section.settings.subtitle }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    {%- if section.settings.collection != blank -%}
+      <div class="featured-collection-{{ section.id }}__slider">
+        {%- assign products = collections[section.settings.collection].products | slice: 0, section.settings.product_count -%}
+        {%- for product in products -%}
+          <div class="featured-collection-{{ section.id }}__item">
+            <a href="{{ product.url }}" class="featured-collection-{{ section.id }}__image-wrapper">
+              {%- if product.featured_image -%}
+                <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.featured_image.alt | escape }}" class="featured-collection-{{ section.id }}__image" loading="lazy" width="600" height="600">
+              {%- endif -%}
+            </a>
+            <div class="featured-collection-{{ section.id }}__info">
+              <div class="featured-collection-{{ section.id }}__product-title">{{ product.title }}</div>
+              <div class="featured-collection-{{ section.id }}__price">{{ product.price | money }}</div>
+              {%- if product.tags contains 'Limited Edition' -%}
+                <span class="featured-collection-{{ section.id }}__tag">Limited Edition</span>
+              {%- elsif product.inventory_management and product.inventory_quantity <= 3 and product.available -%}
+                <span class="featured-collection-{{ section.id }}__tag">Only {{ product.inventory_quantity }} Left</span>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+      <div class="featured-collection-{{ section.id }}__cta">
+        <a href="{{ collections[section.settings.collection].url }}" class="featured-collection-{{ section.id }}__cta-btn">
+          {{ section.settings.cta_label | default: 'View All Works' }}
+        </a>
+      </div>
+    {%- else -%}
+      <p style="text-align:center; color:var(--color-text-light);">Select a collection to feature products here.</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured Collection",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "product_count",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 4,
+      "label": "Number of products"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA Button Label",
+      "default": "View All Works"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Collection"
+    }
+  ]
+}
+{% endschema %}

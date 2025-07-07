@@ -1,0 +1,156 @@
+{%- style -%}
+  .process-slider-{{ section.id }} {
+    padding: var(--spacing-xl) 0;
+    background: var(--color-background);
+  }
+  .process-slider-{{ section.id }}__header {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+  }
+  .process-slider-{{ section.id }}__title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 300;
+    margin-bottom: 1rem;
+  }
+  .process-slider-{{ section.id }}__subtitle {
+    font-size: 1.125rem;
+    color: var(--color-text-light);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .process-slider-{{ section.id }}__carousel {
+    display: flex;
+    gap: var(--spacing-md);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 1rem;
+  }
+  .process-slider-{{ section.id }}__item {
+    min-width: 320px;
+    max-width: 400px;
+    flex: 0 0 auto;
+    background: var(--color-accent);
+    border-radius: 8px;
+    padding: 2rem 1.5rem;
+    margin: 0 auto;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .process-slider-{{ section.id }}__image {
+    width: 100%;
+    max-width: 320px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+  }
+  .process-slider-{{ section.id }}__step-title {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: var(--color-text);
+  }
+  .process-slider-{{ section.id }}__desc {
+    font-size: 1rem;
+    color: var(--color-text-light);
+  }
+  @media (max-width: 768px) {
+    .process-slider-{{ section.id }}__carousel {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--spacing-md);
+      overflow-x: unset;
+      scroll-snap-type: none;
+    }
+    .process-slider-{{ section.id }}__item {
+      min-width: 0;
+      max-width: 100%;
+    }
+    .process-slider-{{ section.id }}__image {
+      height: 160px;
+    }
+  }
+{%- endstyle -%}
+
+<section class="process-slider-{{ section.id }}">
+  <div class="container">
+    {%- if section.settings.title != blank or section.settings.subtitle != blank -%}
+      <div class="process-slider-{{ section.id }}__header">
+        {%- if section.settings.title != blank -%}
+          <h2 class="process-slider-{{ section.id }}__title">{{ section.settings.title }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subtitle != blank -%}
+          <p class="process-slider-{{ section.id }}__subtitle">{{ section.settings.subtitle }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    <div class="process-slider-{{ section.id }}__carousel">
+      {%- for block in section.blocks -%}
+        <div class="process-slider-{{ section.id }}__item" {{ block.shopify_attributes }}>
+          {%- if block.settings.image -%}
+            <img src="{{ block.settings.image | image_url: width: 320 }}" alt="{{ block.settings.title | escape }}" class="process-slider-{{ section.id }}__image" width="320" height="180">
+          {%- endif -%}
+          <div class="process-slider-{{ section.id }}__step-title">{{ block.settings.title }}</div>
+          <div class="process-slider-{{ section.id }}__desc">{{ block.settings.description }}</div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Process Slider",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Step image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Step title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Step description"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Process Slider",
+      "blocks": [
+        { "type": "step" },
+        { "type": "step" }
+      ]
+    }
+  ]
+}
+{% endschema %} 

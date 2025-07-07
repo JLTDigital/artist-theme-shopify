@@ -1,0 +1,170 @@
+{%- style -%}
+  .storytelling-gallery-{{ section.id }} {
+    padding: var(--spacing-xl) 0;
+    background: var(--color-background);
+  }
+  .storytelling-gallery-{{ section.id }}__header {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+  }
+  .storytelling-gallery-{{ section.id }}__title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 300;
+    margin-bottom: 1rem;
+  }
+  .storytelling-gallery-{{ section.id }}__subtitle {
+    font-size: 1.125rem;
+    color: var(--color-text-light);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .storytelling-gallery-{{ section.id }}__block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-lg);
+    align-items: center;
+    margin-bottom: var(--spacing-xl);
+  }
+  .storytelling-gallery-{{ section.id }}__block:nth-child(even) {
+    direction: rtl;
+  }
+  .storytelling-gallery-{{ section.id }}__block:nth-child(even) > * {
+    direction: ltr;
+  }
+  .storytelling-gallery-{{ section.id }}__image-wrapper {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  .storytelling-gallery-{{ section.id }}__image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+  .storytelling-gallery-{{ section.id }}__content {
+    padding: 0 1rem;
+  }
+  .storytelling-gallery-{{ section.id }}__block-title {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: var(--color-text);
+  }
+  .storytelling-gallery-{{ section.id }}__block-text {
+    font-size: 1rem;
+    color: var(--color-text-light);
+    margin-bottom: 1rem;
+  }
+  .storytelling-gallery-{{ section.id }}__block-link {
+    font-size: 1rem;
+    color: var(--color-text);
+    text-decoration: underline;
+    transition: color var(--transition-fast);
+  }
+  .storytelling-gallery-{{ section.id }}__block-link:hover {
+    color: var(--color-accent);
+  }
+  @media (max-width: 900px) {
+    .storytelling-gallery-{{ section.id }}__block {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-md);
+    }
+    .storytelling-gallery-{{ section.id }}__image-wrapper {
+      max-width: 100%;
+    }
+  }
+{%- endstyle -%}
+
+<section class="storytelling-gallery-{{ section.id }}">
+  <div class="container">
+    {%- if section.settings.title != blank or section.settings.subtitle != blank -%}
+      <div class="storytelling-gallery-{{ section.id }}__header">
+        {%- if section.settings.title != blank -%}
+          <h2 class="storytelling-gallery-{{ section.id }}__title">{{ section.settings.title }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subtitle != blank -%}
+          <p class="storytelling-gallery-{{ section.id }}__subtitle">{{ section.settings.subtitle }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    {%- for block in section.blocks -%}
+      <div class="storytelling-gallery-{{ section.id }}__block" {{ block.shopify_attributes }}>
+        <div class="storytelling-gallery-{{ section.id }}__image-wrapper">
+          {%- if block.settings.image -%}
+            <img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.title | escape }}" class="storytelling-gallery-{{ section.id }}__image" width="600" height="400">
+          {%- endif -%}
+        </div>
+        <div class="storytelling-gallery-{{ section.id }}__content">
+          <div class="storytelling-gallery-{{ section.id }}__block-title">{{ block.settings.title }}</div>
+          <div class="storytelling-gallery-{{ section.id }}__block-text">{{ block.settings.text }}</div>
+          {%- if block.settings.link_label and block.settings.link_url -%}
+            <a href="{{ block.settings.link_url }}" class="storytelling-gallery-{{ section.id }}__block-link">{{ block.settings.link_label }}</a>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Storytelling Gallery",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "story",
+      "name": "Story Block",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Link label"
+        },
+        {
+          "type": "url",
+          "id": "link_url",
+          "label": "Link URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Storytelling Gallery",
+      "blocks": [
+        { "type": "story" },
+        { "type": "story" }
+      ]
+    }
+  ]
+}
+{% endschema %} 

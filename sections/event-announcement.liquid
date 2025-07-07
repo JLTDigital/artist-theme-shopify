@@ -1,0 +1,159 @@
+{%- style -%}
+  .event-announcement-{{ section.id }} {
+    padding: var(--spacing-xl) 0;
+    background: var(--color-background);
+  }
+  .event-announcement-{{ section.id }}__header {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+  }
+  .event-announcement-{{ section.id }}__title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 300;
+    margin-bottom: 1rem;
+  }
+  .event-announcement-{{ section.id }}__subtitle {
+    font-size: 1.125rem;
+    color: var(--color-text-light);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .event-announcement-{{ section.id }}__grid {
+    display: grid;
+    gap: var(--spacing-lg);
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  }
+  .event-announcement-{{ section.id }}__item {
+    background: var(--color-accent);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    display: flex;
+    flex-direction: column;
+    min-height: 420px;
+  }
+  .event-announcement-{{ section.id }}__image {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-bottom: 1px solid var(--color-border);
+  }
+  .event-announcement-{{ section.id }}__info {
+    padding: 1.5rem 1rem 1rem 1rem;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  .event-announcement-{{ section.id }}__date {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-text-light);
+    margin-bottom: 0.5rem;
+  }
+  .event-announcement-{{ section.id }}__venue {
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+  }
+  .event-announcement-{{ section.id }}__desc {
+    font-size: 1rem;
+    color: var(--color-text-light);
+    margin-bottom: 0.5rem;
+  }
+  @media (max-width: 768px) {
+    .event-announcement-{{ section.id }}__grid {
+      grid-template-columns: 1fr;
+    }
+    .event-announcement-{{ section.id }}__image {
+      height: 180px;
+    }
+  }
+{%- endstyle -%}
+
+<section class="event-announcement-{{ section.id }}">
+  <div class="container">
+    {%- if section.settings.title != blank or section.settings.subtitle != blank -%}
+      <div class="event-announcement-{{ section.id }}__header">
+        {%- if section.settings.title != blank -%}
+          <h2 class="event-announcement-{{ section.id }}__title">{{ section.settings.title }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subtitle != blank -%}
+          <p class="event-announcement-{{ section.id }}__subtitle">{{ section.settings.subtitle }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    <div class="event-announcement-{{ section.id }}__grid">
+      {%- for block in section.blocks -%}
+        <div class="event-announcement-{{ section.id }}__item" {{ block.shopify_attributes }}>
+          {%- if block.settings.image -%}
+            <img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.venue | escape }}" class="event-announcement-{{ section.id }}__image" width="600" height="220">
+          {%- endif -%}
+          <div class="event-announcement-{{ section.id }}__info">
+            <div class="event-announcement-{{ section.id }}__date">{{ block.settings.date }}</div>
+            <div class="event-announcement-{{ section.id }}__venue">{{ block.settings.venue }}</div>
+            <div class="event-announcement-{{ section.id }}__desc">{{ block.settings.description }}</div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Event Announcement",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "event",
+      "name": "Event",
+      "settings": [
+        {
+          "type": "text",
+          "id": "date",
+          "label": "Date"
+        },
+        {
+          "type": "text",
+          "id": "venue",
+          "label": "Venue"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Event image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Event Announcement",
+      "blocks": [
+        { "type": "event" },
+        { "type": "event" }
+      ]
+    }
+  ]
+}
+{% endschema %} 

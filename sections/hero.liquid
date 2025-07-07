@@ -1,0 +1,233 @@
+{%- style -%}
+  .hero-{{ section.id }} {
+    height: 100vh;
+    min-height: 600px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: var(--spacing-md) 0;
+  }
+
+  .hero-{{ section.id }}__background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .hero-{{ section.id }}__background-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .hero-{{ section.id }}__video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .hero-{{ section.id }}__content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 800px;
+    padding: 0 2rem;
+    color: {{ section.settings.text_color | default: '#FFFFFF' }};
+  }
+
+  .hero-{{ section.id }}__title {
+    font-size: clamp(2.5rem, 8vw, 4.5rem);
+    font-weight: 300;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 1s ease-out 0.3s forwards;
+  }
+
+  .hero-{{ section.id }}__subtitle {
+    font-size: clamp(1rem, 3vw, 1.25rem);
+    font-weight: 300;
+    line-height: 1.5;
+    margin-bottom: 2rem;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 1s ease-out 0.6s forwards;
+  }
+
+  .hero-{{ section.id }}__button {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 1s ease-out 0.9s forwards;
+  }
+
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hero-{{ section.id }}__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, {{ section.settings.overlay_opacity | divided_by: 100.0 }});
+    z-index: 1;
+  }
+
+  @media (max-width: 768px) {
+    .hero-{{ section.id }} {
+      min-height: 500px;
+    }
+    
+    .hero-{{ section.id }}__content {
+      padding: 0 1rem;
+    }
+  }
+{%- endstyle -%}
+
+<section class="hero-{{ section.id }} section--hero">
+  {%- if section.settings.background_image -%}
+    <div class="hero-{{ section.id }}__background">
+      <img 
+        src="{{ section.settings.background_image | image_url: width: 1920 }}"
+        alt="{{ section.settings.background_image.alt | escape }}"
+        class="hero-{{ section.id }}__background-image"
+        loading="eager"
+        width="1920"
+        height="1080"
+      >
+    </div>
+  {%- endif -%}
+
+  {%- if section.settings.video_url -%}
+    <div class="hero-{{ section.id }}__background">
+      {%- if section.settings.video_url contains 'youtube' or section.settings.video_url contains 'youtu.be' -%}
+        {%- assign video_id = section.settings.video_url | split: 'v=' | last | split: '&' | first -%}
+        <iframe 
+          src="https://www.youtube.com/embed/{{ video_id }}?autoplay={% if section.settings.video_autoplay %}1{% else %}0{% endif %}&mute={% if section.settings.video_mute %}1{% else %}0{% endif %}&controls=0&loop=1&playlist={{ video_id }}&showinfo=0&rel=0&modestbranding=1"
+          frameborder="0"
+          allow="autoplay; encrypted-media"
+          allowfullscreen
+          class="hero-{{ section.id }}__video"
+        ></iframe>
+      {%- elsif section.settings.video_url contains 'vimeo' -%}
+        {%- assign video_id = section.settings.video_url | split: '/' | last -%}
+        <iframe 
+          src="https://player.vimeo.com/video/{{ video_id }}?autoplay={% if section.settings.video_autoplay %}1{% else %}0{% endif %}&muted={% if section.settings.video_mute %}1{% else %}0{% endif %}&controls=0&loop=1&background=1"
+          frameborder="0"
+          allow="autoplay; fullscreen"
+          allowfullscreen
+          class="hero-{{ section.id }}__video"
+        ></iframe>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  {%- if section.settings.overlay_opacity > 0 -%}
+    <div class="hero-{{ section.id }}__overlay"></div>
+  {%- endif -%}
+
+  <div class="hero-{{ section.id }}__content">
+    {%- if section.settings.title != blank -%}
+      <h1 class="hero-{{ section.id }}__title">{{ section.settings.title }}</h1>
+    {%- endif -%}
+
+    {%- if section.settings.subtitle != blank -%}
+      <p class="hero-{{ section.id }}__subtitle">{{ section.settings.subtitle }}</p>
+    {%- endif -%}
+
+    {%- if section.settings.button_text != blank and section.settings.button_link != blank -%}
+      <div class="hero-{{ section.id }}__button">
+        <a href="{{ section.settings.button_link }}" class="button">
+          {{ section.settings.button_text }}
+        </a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Welcome to My Studio"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Discover unique artworks and limited editions"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background image"
+    },
+    {
+      "type": "url",
+      "id": "video_url",
+      "label": "Video URL (YouTube/Vimeo)"
+    },
+    {
+      "type": "checkbox",
+      "id": "video_autoplay",
+      "label": "Autoplay video",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "video_mute",
+      "label": "Mute video",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "unit": "%",
+      "label": "Overlay opacity",
+      "default": 30
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero"
+    }
+  ]
+}
+{% endschema %} 

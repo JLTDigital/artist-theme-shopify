@@ -1,0 +1,169 @@
+{%- style -%}
+  .newsletter-signup-{{ section.id }} {
+    width: 100%;
+    background: var(--color-background);
+    padding: var(--spacing-xxl) 0;
+  }
+  .newsletter-signup-{{ section.id }}__container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+    text-align: center;
+  }
+  .newsletter-signup-{{ section.id }}__header {
+    margin-bottom: var(--spacing-xl);
+  }
+  .newsletter-signup-{{ section.id }}__title {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    font-weight: 300;
+    margin-bottom: 0.5em;
+    color: var(--color-text);
+  }
+  .newsletter-signup-{{ section.id }}__subtitle {
+    font-family: var(--font-body);
+    font-size: 1.125rem;
+    color: var(--color-text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .newsletter-signup-{{ section.id }}__form {
+    display: flex;
+    gap: var(--spacing-sm);
+    max-width: 500px;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: center;
+  }
+  .newsletter-signup-{{ section.id }}__input {
+    flex: 1;
+    padding: 0.7em 1.2em;
+    border: 1px solid var(--color-border);
+    border-radius: 2em;
+    font-size: 1rem;
+    background: var(--color-background);
+    color: var(--color-text);
+    font-family: var(--font-body);
+  }
+  .newsletter-signup-{{ section.id }}__input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+  }
+  .newsletter-signup-{{ section.id }}__button {
+    background: var(--color-accent);
+    color: var(--color-background);
+    border: none;
+    border-radius: 2em;
+    padding: 0.7em 1.5em;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-family: var(--font-body);
+    white-space: nowrap;
+  }
+  .newsletter-signup-{{ section.id }}__button:hover,
+  .newsletter-signup-{{ section.id }}__button:focus {
+    background: var(--color-text);
+    color: var(--color-background);
+    outline: none;
+  }
+  .newsletter-signup-{{ section.id }}__incentive {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    margin-top: var(--spacing-md);
+  }
+  @media (max-width: 600px) {
+    .newsletter-signup-{{ section.id }}__form {
+      flex-direction: column;
+      gap: var(--spacing-md);
+    }
+    .newsletter-signup-{{ section.id }}__input,
+    .newsletter-signup-{{ section.id }}__button {
+      width: 100%;
+    }
+  }
+{%- endstyle -%}
+
+<section class="newsletter-signup-{{ section.id }}">
+  <div class="newsletter-signup-{{ section.id }}__container">
+    <div class="newsletter-signup-{{ section.id }}__header{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
+      {%- if section.settings.heading != blank -%}
+        <h2 class="newsletter-signup-{{ section.id }}__title">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.subtitle != blank -%}
+        <p class="newsletter-signup-{{ section.id }}__subtitle">{{ section.settings.subtitle }}</p>
+      {%- endif -%}
+    </div>
+    {%- if settings.animations_reveal_on_scroll -%}
+      <div class="scroll-trigger animate--slide-in">
+        {%- form 'customer', class: 'newsletter-form' -%}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <input 
+            id="NewsletterEmail-{{ section.id }}" 
+            type="email" 
+            name="contact[email]" 
+            class="newsletter-signup-{{ section.id }}__input" 
+            value="{{ form.email }}" 
+            aria-required="true" 
+            autocorrect="off" 
+            autocapitalize="off" 
+            autocomplete="email" 
+            placeholder="{{ 'newsletter.label' | t }}" 
+            required
+          >
+          <button 
+            type="submit" 
+            class="newsletter-signup-{{ section.id }}__button" 
+            name="commit" 
+            aria-label="{{ 'newsletter.button_label' | t }}"
+          >
+            {{ 'newsletter.button_label' | t }}
+          </button>
+        {%- endform -%}
+      </div>
+    {%- else -%}
+      {%- form 'customer', class: 'newsletter-form' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <input 
+          id="NewsletterEmail-{{ section.id }}" 
+          type="email" 
+          name="contact[email]" 
+          class="newsletter-signup-{{ section.id }}__input" 
+          value="{{ form.email }}" 
+          aria-required="true" 
+          autocorrect="off" 
+          autocapitalize="off" 
+          autocomplete="email" 
+          placeholder="{{ 'newsletter.label' | t }}" 
+          required
+        >
+        <button 
+          type="submit" 
+          class="newsletter-signup-{{ section.id }}__button" 
+          name="commit" 
+          aria-label="{{ 'newsletter.button_label' | t }}"
+        >
+          {{ 'newsletter.button_label' | t }}
+        </button>
+      {%- endform -%}
+    {%- endif -%}
+    {%- if section.settings.incentive != blank -%}
+      <p class="newsletter-signup-{{ section.id }}__incentive">{{ section.settings.incentive }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter Signup",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    { "type": "inline_richtext", "id": "heading", "label": "Heading", "default": "Studio Notes" },
+    { "type": "textarea", "id": "subtitle", "label": "Subtitle (optional)" },
+    { "type": "textarea", "id": "incentive", "label": "Incentive text (optional)", "info": "e.g. Get early access to new pieces" }
+  ],
+  "presets": [ { "name": "Newsletter Signup" } ]
+}
+{% endschema %}
