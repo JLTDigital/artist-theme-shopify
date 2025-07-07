@@ -111,7 +111,7 @@
       "name": "Featured Collection",
       "settings": {
         "title": "Featured Collection",
-        "subtitle": "",
+        "subtitle": "My Best Work",
         "collection": "art",
         "product_count": 4,
         "cta_label": "View All Works"
