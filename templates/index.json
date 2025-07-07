@@ -16,13 +16,14 @@
         "title": "Welcome to My Studio",
         "title_color": "#ffffff",
         "subtitle": "Discover unique artworks and limited editions",
-        "button_text": "",
-        "button_link": "",
+        "button_text": "Work",
+        "button_link": "shopify://products/the-3p-fulfilled-snowboard",
+        "background_image": "shopify://shop_images/a-figure-in-white-gauze-strikes-a-pose-in-the-woods.jpg",
         "video_url": "",
         "video_autoplay": true,
         "video_mute": true,
         "overlay_opacity": 30,
-        "text_color": "#FFFFFF",
+        "text_color": "#ffffff",
         "button_bg_color": "#e5bfc2",
         "button_text_color": "#222222",
         "button_border_color": "#e5bfc2"
@@ -51,8 +52,9 @@
       "settings": {
         "heading": "Process Video",
         "video_url": "",
+        "poster": "shopify://shop_images/model-with-leather-jacket-over-shoulders.jpg",
         "autoplay": false,
-        "caption": ""
+        "caption": "fashion"
       }
     },
     "featured_collection_jkqwnh": {
