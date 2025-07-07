@@ -28,17 +28,22 @@
 <div class="disclosure">
   <button
     type="button"
-    class="disclosure__button localization-form__select localization-selector link link--text caption-large"
+    class="disclosure__button artist-disclosure-button localization-form__select localization-selector link link--text caption-large"
     aria-expanded="false"
     aria-controls="{{ localPosition }}-country-results"
     aria-describedby="{{ localPosition }}Label"
+    id="artist-disclosure-country-{{ localPosition }}"
   >
     <span>
       {{- localization.country.name }} |
       {{ localization.country.currency.iso_code }}
       {{ localization.country.currency.symbol -}}
     </span>
-    {{ 'icon-caret.svg' | inline_asset_content }}
+    <span class="artist-disclosure-caret">
+      <svg width="20" height="10" viewBox="0 0 20 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+        <path d="M2 2L10 8L18 2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </span>
   </button>
   <div class="disclosure__list-wrapper country-selector" hidden>
     <div class="country-filter{% unless show_country_filter %} country-filter--no-padding{% endunless %}">
@@ -82,7 +87,6 @@
         {{- 'icon-close.svg' | inline_asset_content -}}
       </button>
     </div>
-    <div id="sr-country-search-results" class="visually-hidden" aria-live="polite"></div>
     <div
       class="disclosure__list country-selector__list{% if show_currencies %} country-selector__list--with-multiple-currencies{% endif %}"
       id="{{ localPosition }}-country-results"
@@ -154,3 +158,51 @@
   <div class="country-selector__overlay"></div>
 </div>
 <input type="hidden" name="country_code" value="{{ localization.country.iso_code }}">
+
+{%- style -%}
+.artist-disclosure-label {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  color: var(--color-text-light, #666);
+  margin-bottom: 0.6em;
+  margin-left: 0.1em;
+  letter-spacing: 0.01em;
+}
+.artist-disclosure-button {
+  background: var(--color-background, #fff);
+  border: 1.2px solid var(--color-border, #bdbdc2);
+  border-radius: 6px;
+  padding: 0.7em 1.2em 0.7em 1.2em;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--color-text);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7em;
+  box-shadow: none;
+  transition: border 0.2s;
+  width: 100%;
+  min-width: 220px;
+  max-width: 340px;
+}
+.artist-disclosure-button:focus,
+.artist-disclosure-button:hover {
+  border-color: var(--color-accent, #e5bfc2);
+  outline: none;
+}
+.artist-disclosure-caret {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0.7em;
+}
+.artist-disclosure-caret svg {
+  width: 1.2em;
+  height: 0.8em;
+  stroke: var(--color-text);
+  display: block;
+}
+{%- endstyle -%}

@@ -66,7 +66,17 @@
     opacity: 0;
     transform: translateY(30px);
     animation: fadeInUp 1s ease-out 0.9s forwards;
+    padding: 2rem;
   }
+
+    .hero-{{ section.id }}__button a {
+      padding: 1rem 4rem;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      font-weight: 400;
+      font-size: 1.2rem;
+      transition: background-color 0.3s ease;
+    }
 
   @keyframes fadeInUp {
     to {
@@ -140,7 +150,7 @@
 
   <div class="hero-{{ section.id }}__content">
     {%- if section.settings.title != blank -%}
-      <h1 class="hero-{{ section.id }}__title">{{ section.settings.title }}</h1>
+      <h1 class="hero-{{ section.id }}__title" style="color: {{ section.settings.title_color | default: 'var(--color-text)' }}">{{ section.settings.title }}</h1>
     {%- endif -%}
 
     {%- if section.settings.subtitle != blank -%}
@@ -149,7 +159,10 @@
 
     {%- if section.settings.button_text != blank and section.settings.button_link != blank -%}
       <div class="hero-{{ section.id }}__button">
-        <a href="{{ section.settings.button_link }}" class="button">
+        <a href="{{ section.settings.button_link }}" class="button"
+           style="background-color: {{ section.settings.button_bg_color | default: 'var(--color-accent)' }};
+                  color: {{ section.settings.button_text_color | default: 'var(--color-text)' }};
+                  border: 2px solid {{ section.settings.button_border_color | default: 'transparent' }};">
           {{ section.settings.button_text }}
         </a>
       </div>
@@ -168,6 +181,12 @@
       "id": "title",
       "label": "Title",
       "default": "Welcome to My Studio"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#ffffff"
     },
     {
       "type": "textarea",
@@ -222,6 +241,24 @@
       "id": "text_color",
       "label": "Text color",
       "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Button background color",
+      "default": "#e5bfc2"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#222222"
+    },
+    {
+      "type": "color",
+      "id": "button_border_color",
+      "label": "Button border color",
+      "default": "#e5bfc2"
     }
   ],
   "presets": [
