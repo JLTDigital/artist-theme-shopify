@@ -22,7 +22,7 @@
         "video_autoplay": true,
         "video_mute": true,
         "overlay_opacity": 30,
-        "text_color": "#FFFFFF",
+        "text_color": "#ffffff",
         "button_bg_color": "#e5bfc2",
         "button_text_color": "#222222",
         "button_border_color": "#e5bfc2"
@@ -115,7 +115,6 @@
     },
     "main": {
       "type": "main-404",
-      "disabled": true,
       "settings": {}
     }
   },
