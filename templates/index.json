@@ -110,9 +110,9 @@
       "type": "featured-collection",
       "name": "Featured Collection",
       "settings": {
-        "title": "",
+        "title": "Featured Collection",
         "subtitle": "",
-        "collection": "",
+        "collection": "art",
         "product_count": 4,
         "cta_label": "View All Works"
       }
