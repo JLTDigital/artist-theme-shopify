@@ -31,6 +31,55 @@
     },
     "project_gallery_wEp3iX": {
       "type": "project-gallery",
+      "blocks": {
+        "project_c9P7cK": {
+          "type": "project",
+          "settings": {
+            "image": "shopify://shop_images/smashed-tv-and-graffitied-wall.jpg",
+            "title": "Graffiti",
+            "tags": "art, graffiti"
+          }
+        },
+        "project_LfMLUE": {
+          "type": "project",
+          "settings": {
+            "image": "shopify://shop_images/man-rests-against-wooden-table.jpg",
+            "title": "Modern",
+            "tags": "art, man"
+          }
+        },
+        "project_PM9pHN": {
+          "type": "project",
+          "settings": {
+            "image": "shopify://shop_images/a-woman-in-an-art-gallery-ponders-a-degas-painting.jpg",
+            "title": "Portrait",
+            "tags": "art, portrait"
+          }
+        },
+        "project_xCVaya": {
+          "type": "project",
+          "settings": {
+            "image": "shopify://shop_images/portrait-of-a-woman-painted-on-wall.jpg",
+            "title": "Wall",
+            "tags": "art, street art"
+          }
+        },
+        "project_z8cr4T": {
+          "type": "project",
+          "settings": {
+            "image": "shopify://shop_images/leather-seat-stool.jpg",
+            "title": "Seat",
+            "tags": "art, industrial"
+          }
+        }
+      },
+      "block_order": [
+        "project_c9P7cK",
+        "project_LfMLUE",
+        "project_PM9pHN",
+        "project_xCVaya",
+        "project_z8cr4T"
+      ],
       "name": "Featured Projects Grid",
       "settings": {
         "heading": "Featured Projects"
