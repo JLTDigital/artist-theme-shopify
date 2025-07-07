@@ -9,12 +9,125 @@
  */
 {
   "sections": {
+    "hero_LU3VF7": {
+      "type": "hero",
+      "name": "Hero",
+      "settings": {
+        "title": "Welcome to My Studio",
+        "title_color": "#ffffff",
+        "subtitle": "Discover unique artworks and limited editions",
+        "button_text": "",
+        "button_link": "",
+        "video_url": "",
+        "video_autoplay": true,
+        "video_mute": true,
+        "overlay_opacity": 30,
+        "text_color": "#ffffff",
+        "button_bg_color": "#e5bfc2",
+        "button_text_color": "#222222",
+        "button_border_color": "#e5bfc2"
+      }
+    },
+    "project_gallery_FbYNHV": {
+      "type": "project-gallery",
+      "name": "Featured Projects Grid",
+      "settings": {
+        "heading": "Featured Projects"
+      }
+    },
+    "artist_statement_9YfgAh": {
+      "type": "artist-statement",
+      "name": "Artist Statement",
+      "settings": {
+        "title": "Artist Statement",
+        "text": "<p>Share your artistic philosophy, inspiration, and creative journey here. This is where you can connect with your audience on a deeper level and explain what drives your work.</p>",
+        "signature": "",
+        "layout": "text-only"
+      }
+    },
+    "video_embed_VV9Tif": {
+      "type": "video-embed",
+      "name": "Video / Process",
+      "settings": {
+        "heading": "Process Video",
+        "video_url": "",
+        "autoplay": false,
+        "caption": ""
+      }
+    },
+    "featured_collection_7EBUh8": {
+      "type": "featured-collection",
+      "name": "Featured Collection",
+      "settings": {
+        "title": "",
+        "subtitle": "",
+        "collection": "",
+        "product_count": 4,
+        "cta_label": "View All Works"
+      }
+    },
+    "testimonials_DWrPic": {
+      "type": "testimonials",
+      "name": "Testimonials",
+      "settings": {
+        "heading": "Collector Quotes",
+        "subtitle": ""
+      }
+    },
+    "event_announcement_iGNV3a": {
+      "type": "event-announcement",
+      "blocks": {
+        "event_hXyH7x": {
+          "type": "event",
+          "settings": {
+            "date": "",
+            "venue": "",
+            "description": ""
+          }
+        },
+        "event_xQnp66": {
+          "type": "event",
+          "settings": {
+            "date": "",
+            "venue": "",
+            "description": ""
+          }
+        }
+      },
+      "block_order": [
+        "event_hXyH7x",
+        "event_xQnp66"
+      ],
+      "name": "Event Announcement",
+      "settings": {
+        "title": "",
+        "subtitle": ""
+      }
+    },
+    "newsletter_pP9Exj": {
+      "type": "newsletter",
+      "name": "Newsletter Signup",
+      "settings": {
+        "heading": "Studio Notes",
+        "subtitle": "",
+        "incentive": ""
+      }
+    },
     "main": {
       "type": "main-404",
+      "disabled": true,
       "settings": {}
     }
   },
   "order": [
+    "hero_LU3VF7",
+    "project_gallery_FbYNHV",
+    "artist_statement_9YfgAh",
+    "video_embed_VV9Tif",
+    "featured_collection_7EBUh8",
+    "testimonials_DWrPic",
+    "event_announcement_iGNV3a",
+    "newsletter_pP9Exj",
     "main"
   ]
 }
