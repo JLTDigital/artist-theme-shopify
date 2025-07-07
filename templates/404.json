@@ -74,10 +74,6 @@
         "subtitle": ""
       }
     },
-    "main": {
-      "type": "main-404",
-      "settings": {}
-    },
     "event_announcement_iGNV3a": {
       "type": "event-announcement",
       "blocks": {
@@ -116,6 +112,11 @@
         "subtitle": "",
         "incentive": ""
       }
+    },
+    "main": {
+      "type": "main-404",
+      "disabled": true,
+      "settings": {}
     }
   },
   "order": [
