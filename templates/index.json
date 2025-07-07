@@ -16,13 +16,14 @@
         "title": "Welcome to My Studio",
         "title_color": "#ffffff",
         "subtitle": "Discover unique artworks and limited editions",
-        "button_text": "",
-        "button_link": "",
+        "button_text": "Work",
+        "button_link": "shopify://products/the-3p-fulfilled-snowboard",
+        "background_image": "shopify://shop_images/a-figure-in-white-gauze-strikes-a-pose-in-the-woods.jpg",
         "video_url": "",
         "video_autoplay": true,
         "video_mute": true,
         "overlay_opacity": 30,
-        "text_color": "#FFFFFF",
+        "text_color": "#ffffff",
         "button_bg_color": "#e5bfc2",
         "button_text_color": "#222222",
         "button_border_color": "#e5bfc2"
@@ -30,6 +31,55 @@
     },
     "project_gallery_wEp3iX": {
       "type": "project-gallery",
+      "blocks": {
+        "project_c9P7cK": {
+          "type": "project",
+          "settings": {
+            "image": "shopify://shop_images/smashed-tv-and-graffitied-wall.jpg",
+            "title": "Graffiti",
+            "tags": "art, graffiti"
+          }
+        },
+        "project_LfMLUE": {
+          "type": "project",
+          "settings": {
+            "image": "shopify://shop_images/man-rests-against-wooden-table.jpg",
+            "title": "Modern",
+            "tags": "art, man"
+          }
+        },
+        "project_PM9pHN": {
+          "type": "project",
+          "settings": {
+            "image": "shopify://shop_images/a-woman-in-an-art-gallery-ponders-a-degas-painting.jpg",
+            "title": "Portrait",
+            "tags": "art, portrait"
+          }
+        },
+        "project_xCVaya": {
+          "type": "project",
+          "settings": {
+            "image": "shopify://shop_images/portrait-of-a-woman-painted-on-wall.jpg",
+            "title": "Wall",
+            "tags": "art, street art"
+          }
+        },
+        "project_z8cr4T": {
+          "type": "project",
+          "settings": {
+            "image": "shopify://shop_images/leather-seat-stool.jpg",
+            "title": "Seat",
+            "tags": "art, industrial"
+          }
+        }
+      },
+      "block_order": [
+        "project_c9P7cK",
+        "project_LfMLUE",
+        "project_PM9pHN",
+        "project_xCVaya",
+        "project_z8cr4T"
+      ],
       "name": "Featured Projects Grid",
       "settings": {
         "heading": "Featured Projects"
@@ -51,17 +101,18 @@
       "settings": {
         "heading": "Process Video",
         "video_url": "",
+        "poster": "shopify://shop_images/model-with-leather-jacket-over-shoulders.jpg",
         "autoplay": false,
-        "caption": ""
+        "caption": "fashion"
       }
     },
     "featured_collection_jkqwnh": {
       "type": "featured-collection",
       "name": "Featured Collection",
       "settings": {
-        "title": "",
-        "subtitle": "",
-        "collection": "",
+        "title": "Featured Collection",
+        "subtitle": "My Best Work",
+        "collection": "art",
         "product_count": 4,
         "cta_label": "View All Works"
       }
