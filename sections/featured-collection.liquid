@@ -149,9 +149,8 @@
       </div>
     {%- endif -%}
     {%- if section.settings.collection != blank -%}
-      <!-- DEBUG: Collection object: {{ section.settings.collection | json }} -->
       <div class="featured-collection-{{ section.id }}__slider">
-        {%- assign products = section.settings.collection.products | slice: 0, section.settings.product_count -%}
+        {%- assign products = section.settings.collection.products | default: collections[section.settings.collection].products | slice: 0, section.settings.product_count -%}
         {%- if products.size == 0 -%}
           <p style="text-align:center; color:var(--color-text-light);">No products found in this collection. Please check the collection assignment and product availability.</p>
         {%- endif -%}
