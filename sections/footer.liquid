@@ -184,7 +184,7 @@
             {%- endif -%}
             {%- if block.settings.show_social and section.settings.show_social -%}
               <div class="artist-footer-{{ section.id }}__social">
-                {%- render 'social-icons', class: 'artist-footer-' | append: section.id | append: '__social-list' -%}
+                {%- render 'social-icons', class: 'artist-footer-', append: '__social-list' -%}
               </div>
             {%- endif -%}
           {%- when 'image' -%}
@@ -199,7 +199,7 @@
         {%- if section.settings.newsletter_heading != blank -%}
           <h2 class="artist-footer-{{ section.id }}__heading">{{ section.settings.newsletter_heading }}</h2>
         {%- endif -%}
-        {%- form 'customer', id: 'ContactFooter', class: 'artist-footer-' | append: section.id | append: '__newsletter-form' -%}
+        {%- form '__newsletter-form' -%}
           <input type="hidden" name="contact[tags]" value="newsletter">
           <input id="NewsletterForm--{{ section.id }}" type="email" name="contact[email]" class="artist-footer-{{ section.id }}__newsletter-input" value="{{ form.email }}" aria-required="true" autocorrect="off" autocapitalize="off" autocomplete="email" placeholder="{{ 'newsletter.label' | t }}" required>
           <button type="submit" class="artist-footer-{{ section.id }}__newsletter-button" name="commit" id="Subscribe" aria-label="{{ 'newsletter.button_label' | t }}">{{ 'newsletter.button_label' | t }}</button>
@@ -287,3 +287,19 @@
   "presets": [ { "name": "Footer" } ]
 }
 {% endschema %}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{%- render 'social-icons', class: 'artist-footer-' | append: section.id |
+    append: '__social-list' -%}"
+  to: "{%- render 'social-icons', class: 'artist-footer-', append: '__social-list'
+    -%}"
+  position: 6305..6384
+- from: "{%- form 'customer', id: 'ContactFooter', class: 'artist-footer-' | append:
+    section.id | append: '__newsletter-form' -%}"
+  to: "{%- form '__newsletter-form' -%}"
+  position: 7321..7353
+{% endcomment %}
